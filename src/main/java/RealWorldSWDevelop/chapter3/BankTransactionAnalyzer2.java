@@ -1,4 +1,4 @@
-package chapter3;
+package RealWorldSWDevelop.chapter3;
 
 import java.io.IOException;
 import java.nio.file.Files;

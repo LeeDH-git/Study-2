@@ -1,4 +1,4 @@
-package chapter3;
+package RealWorldSWDevelop.chapter2;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
