@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor // 기본 생성자 자동 추가
-@Entity 
+@Entity
 public class Posts {
 
     /* @Id : 해당 테이블의 PK
@@ -37,5 +37,10 @@ public class Posts {
         this.title = title;
         this.content = content;
         this.author = author;
+    }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }
