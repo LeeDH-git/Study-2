@@ -1,5 +1,6 @@
 package com.leeDH.book.web.domain.posts;
 
+import com.leeDH.book.web.domain.BaseTimeEntity;
 import lombok.Builder;
 import lombok.Generated;
 import lombok.Getter;
@@ -14,7 +15,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor // 기본 생성자 자동 추가
 @Entity
-public class Posts {
+public class Posts extends BaseTimeEntity {
 
     /* @Id : 해당 테이블의 PK
      * @GeneratedValue : PK의 생성규칙을 나타냄

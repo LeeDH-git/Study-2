@@ -16,7 +16,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+import sun.rmi.runtime.Log;
 
 import java.util.List;
 
@@ -67,13 +69,23 @@ public class PostsApiControllerTests {
     }
 
 
+    /*
+        Update 기능에서 데이터베이스에 쿼리를 날리는 부분 없음
+        > JPA 영속성 컨텍스트
+
+        영속성 컨텍스트?
+        - 일종의 논리적 개념 , JPA의 핵심 내용은 엔티티가 영속성 컨텍스트에 포함되어 있냐 없냐
+        - JPA의 엔티티 매니저가 활성화 된 상태로 트랜잭션 안에서 데이터베이스에서 데이터를 가져오면 이 데이터는 영속성 유지 된 상태
+        - 이 상태에서 해당 데이터의 값을 변경하면 트랜잭션이 끝나는 시점에 해당 테이블에 변경분을 반영
+          즉, Entity 객체의 값만 변경하면 별도로 Update 쿼리를 날릴 필요가 없다 > 이 개념을 더티 체킹이라고 한다
+     */
     @Test
     public void Posts_update() throws Exception {
 
         //given
         Posts savedPosts = postRepository.save(Posts.builder()
-                .title(title)
-                .content(content)
+                .title("title")
+                .content("content")
                 .author("author")
                 .build());
 
@@ -86,19 +98,27 @@ public class PostsApiControllerTests {
                 .content(expectedContent)
                 .build();
 
-        String url = "http://localhost:" + port + "/api/v1/posts" + updateId;
+        String url = "http://localhost:" + port + "/api/v1/posts/" + updateId;
 
         HttpEntity<PostsUpdateRequestDTO> requestEntity = new HttpEntity<>(requestDTO);
 
-        //when
-        ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT,requestEntity, Long.class);
+        try {
+            //when
+            ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, Long.class);
 
-        //then
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody()).isGreaterThan(0L);
+            //then
+            assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+            assertThat(responseEntity.getBody()).isGreaterThan(0L);
 
-        List<Posts> all = postRepository.findAll();
-        assertThat(all.get(0).getTitle()).isEqualTo(title);
-        assertThat(all.get(0).getContent()).isEqualTo(content);
+            List<Posts> all = postRepository.findAll();
+            assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
+            assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
+
+        } catch (final HttpClientErrorException e) {
+            System.out.println(e.getStatusCode());
+            System.out.println(e.getResponseBodyAsString());
+        }
+
+
     }
 }
