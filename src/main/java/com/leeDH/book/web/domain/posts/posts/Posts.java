@@ -1,7 +1,8 @@
-package com.leeDH.book.web.domain.posts;
+package com.leeDH.book.web.domain.posts.posts;
 
 import com.leeDH.book.web.domain.BaseTimeEntity;
 import lombok.Builder;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

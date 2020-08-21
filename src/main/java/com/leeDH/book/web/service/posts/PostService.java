@@ -16,17 +16,19 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class PostService {
+
     private final PostRepository postRepository;
 
     @Transactional
     public Long save(PostsSaveRequestDTO requestDTO) {
+
         return postRepository.save(requestDTO.toEntity()).getId();
     }
 
     @Transactional
     public Long update(Long id, PostsUpdateRequestDTO requestDTO) {
-        Posts posts = postRepository.findById(id).orElseThrow(() -> new
-                IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
+        Posts posts = postRepository.findById(id).orElseThrow(()
+                -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
         posts.update(requestDTO.getTitle(), requestDTO.getContent());
 
         return id;
@@ -34,8 +36,8 @@ public class PostService {
 
     @Transactional
     public PostsResponseDTO findById(Long id) {
-        Posts entity = postRepository.findById(id).orElseThrow(() -> new
-                IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
+        Posts entity = postRepository.findById(id).orElseThrow(()
+                -> new IllegalArgumentException("해당 게시물이 없습니다. id=" + id));
 
         return new PostsResponseDTO(entity);
     }
@@ -49,7 +51,7 @@ public class PostService {
     }
 
     @Transactional
-    public void delete(Long id)  {
+    public void delete(Long id) {
         Posts posts = postRepository.findById(id).orElseThrow(()
                 -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
 
