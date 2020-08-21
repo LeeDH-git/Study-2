@@ -1,5 +1,6 @@
 package com.leeDH.book.web.config.auth;
 
+import com.leeDH.book.web.config.auth.dto.OAuthAttributes;
 import com.leeDH.book.web.domain.user.User;
 import com.leeDH.book.web.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         OAuthAttributes attributes = OAuthAttributes.of(registrationId,userNameAttributeName,oAuth2User.getAttributes());
 
-        User user = SaveOrUpdate(attributes);
+        User user = saveOrUpdate(attributes);
         httpSession.setAttribute("user", new SessionUser(user));
 
         return new DefaultOAuth2User(
