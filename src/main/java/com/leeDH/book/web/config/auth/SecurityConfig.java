@@ -1,7 +1,7 @@
 package com.leeDH.book.web.config.auth;
 
 import com.leeDH.book.web.domain.user.Role;
-import com.leeDH.book.web.service.auth.CustomOAuth2UserService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

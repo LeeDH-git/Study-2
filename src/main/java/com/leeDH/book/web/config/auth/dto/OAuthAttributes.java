@@ -1,6 +1,11 @@
 package com.leeDH.book.web.config.auth.dto;
 
+import com.leeDH.book.web.domain.user.Role;
+import com.leeDH.book.web.domain.user.User;
+import lombok.Builder;
 import lombok.Getter;
+
+import java.util.Map;
 
 @Getter
 public class OAuthAttributes {
@@ -37,7 +42,7 @@ public class OAuthAttributes {
     }
 
     public User toEntity() {
-        return Posts.builder()
+        return User.builder()
                 .name(name)
                 .email(email)
                 .picture(picture)
