@@ -46,7 +46,14 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         User user = saveOrUpdate(attributes);
 
-        /* 세션에 사용자 정보를 저장하기 위한 DTO 클래스 */
+        /* 세션에 사용자 정보를 저장하기 위한 DTO 클래스
+         *  new SessionUser(user) > 왜 User 클래스를 사용하지 않고 새로 만들어 쓰는지?
+         * - User 클래스 사용시 Failed to convert from type [java.lang.Object] to type [byte[] for value '~' 에러 발생
+         * -> 이는 세션에 저장하기 위해 User 클래스를 세션에 저장하려고 하니 User 클래스에 직렬화를 구현하지 않았다는 의미
+         *    오류를 위해서 User 클래스에 직렬화 코드를 넣는것도 안됨!
+         *    User 클래스가 엔티티이기 때문에 언제 다른 엔티티와 관계가 형성될지 모르기 때문에
+         *    자식 엔티티를 갖고 있다면 대상의 자식들까지 직렬화의 대상이 되버려 성능 이슈, 부가 효과 등이 발생 할 수 있기 때문이다.
+         *    그래서 직렬화 기능을 가진 세션 DTO를 하나 추가로 만드는게 유지보수 측면에서 더 도움 됨 */
         httpSession.setAttribute("user", new SessionUser(user));
 
         return new DefaultOAuth2User(
