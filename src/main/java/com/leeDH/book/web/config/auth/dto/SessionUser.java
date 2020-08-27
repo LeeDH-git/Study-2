@@ -2,10 +2,13 @@ package com.leeDH.book.web.config.auth.dto;
 
 import com.leeDH.book.web.domain.user.User;
 import lombok.Getter;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 
 import java.io.Serializable;
 
 @Getter
+@Scope(value = "session",proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class SessionUser implements Serializable {
 
     /* SessionUser에는 인증된 사용자 정보만 필요하다.
